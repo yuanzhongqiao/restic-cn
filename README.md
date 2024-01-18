@@ -1,113 +1,100 @@
-[![Documentation](https://readthedocs.org/projects/restic/badge/?version=latest)](https://restic.readthedocs.io/en/latest/?badge=latest)
-[![Build Status](https://github.com/restic/restic/workflows/test/badge.svg)](https://github.com/restic/restic/actions?query=workflow%3Atest)
-[![Go Report Card](https://goreportcard.com/badge/github.com/restic/restic)](https://goreportcard.com/report/github.com/restic/restic)
-
-# Introduction
-
-restic is a backup program that is fast, efficient and secure. It supports the three major operating systems (Linux, macOS, Windows) and a few smaller ones (FreeBSD, OpenBSD).
-
-For detailed usage and installation instructions check out the [documentation](https://restic.readthedocs.io/en/latest).
-
-You can ask questions in our [Discourse forum](https://forum.restic.net).
-
-Quick start
------------
-
-Once you've [installed](https://restic.readthedocs.io/en/latest/020_installation.html) restic, start
-off with creating a repository for your backups:
-
-    $ restic init --repo /tmp/backup
-    enter password for new backend:
-    enter password again:
-    created restic backend 085b3c76b9 at /tmp/backup
-    Please note that knowledge of your password is required to access the repository.
-    Losing your password means that your data is irrecoverably lost.
-
-and add some data:
-
-    $ restic --repo /tmp/backup backup ~/work
-    enter password for repository:
-    scan [/home/user/work]
-    scanned 764 directories, 1816 files in 0:00
-    [0:29] 100.00%  54.732 MiB/s  1.582 GiB / 1.582 GiB  2580 / 2580 items  0 errors  ETA 0:00
-    duration: 0:29, 54.47MiB/s
-    snapshot 40dc1520 saved
-
-Next you can either use `restic restore` to restore files or use `restic
-mount` to mount the repository via fuse and browse the files from previous
-snapshots.
-
-For more options check out the [online documentation](https://restic.readthedocs.io/en/latest/).
-
-# Backends
-
-Saving a backup on the same machine is nice but not a real backup strategy.
-Therefore, restic supports the following backends for storing backups natively:
-
-- [Local directory](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#local)
-- [sftp server (via SSH)](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#sftp)
-- [HTTP REST server](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#rest-server) ([protocol](https://restic.readthedocs.io/en/latest/100_references.html#rest-backend), [rest-server](https://github.com/restic/rest-server))
-- [Amazon S3](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#amazon-s3) (either from Amazon or using the [Minio](https://minio.io) server)
-- [OpenStack Swift](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#openstack-swift)
-- [BackBlaze B2](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#backblaze-b2)
-- [Microsoft Azure Blob Storage](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#microsoft-azure-blob-storage)
-- [Google Cloud Storage](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#google-cloud-storage)
-- And many other services via the [rclone](https://rclone.org) [Backend](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#other-services-via-rclone)
-
-# Design Principles
-
-Restic is a program that does backups right and was designed with the
-following principles in mind:
-
--  **Easy:** Doing backups should be a frictionless process, otherwise
-   you might be tempted to skip it. Restic should be easy to configure
-   and use, so that, in the event of a data loss, you can just restore
-   it. Likewise, restoring data should not be complicated.
-
--  **Fast**: Backing up your data with restic should only be limited by
-   your network or hard disk bandwidth so that you can backup your files
-   every day. Nobody does backups if it takes too much time. Restoring
-   backups should only transfer data that is needed for the files that
-   are to be restored, so that this process is also fast.
-
--  **Verifiable**: Much more important than backup is restore, so restic
-   enables you to easily verify that all data can be restored.
-
--  **Secure**: Restic uses cryptography to guarantee confidentiality and
-   integrity of your data. The location the backup data is stored is
-   assumed not to be a trusted environment (e.g. a shared space where
-   others like system administrators are able to access your backups).
-   Restic is built to secure your data against such attackers.
-
--  **Efficient**: With the growth of data, additional snapshots should
-   only take the storage of the actual increment. Even more, duplicate
-   data should be de-duplicated before it is actually written to the
-   storage back end to save precious backup space.
-
-# Reproducible Builds
-
-The binaries released with each restic version starting at 0.6.1 are
-[reproducible](https://reproducible-builds.org/), which means that you can
-reproduce a byte identical version from the source code for that
-release. Instructions on how to do that are contained in the
-[builder repository](https://github.com/restic/builder).
-
-News
-----
-
-You can follow the restic project on Mastodon [@resticbackup](https://fosstodon.org/@restic) or by subscribing to
-the [project blog](https://restic.net/blog/).
-
-License
--------
-
-Restic is licensed under [BSD 2-Clause License](https://opensource.org/licenses/BSD-2-Clause). You can find the
-complete text in [``LICENSE``](LICENSE).
-
-Sponsorship
------------
-
-Backend integration tests for Google Cloud Storage and Microsoft Azure Blob
-Storage are sponsored by [AppsCode](https://appscode.com)!
-
-[![Sponsored by AppsCode](https://cdn.appscode.com/images/logo/appscode/ac-logo-color.png)](https://appscode.com)
+<div class="Box-sc-g0xbh4-0 bJMeLZ js-snippet-clipboard-copy-unpositioned" data-hpc="true"><article class="markdown-body entry-content container-lg" itemprop="text"><p dir="auto"><a href="https://restic.readthedocs.io/en/latest/?badge=latest" rel="nofollow"><img src="https://camo.githubusercontent.com/dac49d193c244c6761620b40e41ff964b2b5c51ea7dde54c9aa0a7031895a987/68747470733a2f2f72656164746865646f63732e6f72672f70726f6a656374732f7265737469632f62616467652f3f76657273696f6e3d6c6174657374" alt="文档" data-canonical-src="https://readthedocs.org/projects/restic/badge/?version=latest" style="max-width: 100%;"></a>
+<a href="https://github.com/restic/restic/actions?query=workflow%3Atest"><img src="https://github.com/restic/restic/workflows/test/badge.svg" alt="构建状态" style="max-width: 100%;"></a>
+<a href="https://goreportcard.com/report/github.com/restic/restic" rel="nofollow"><img src="https://camo.githubusercontent.com/dda417e5553b65dc82a3f54261a3ac99ab6e2743aa163b48983d6a279e6b9bba/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f7265737469632f726573746963" alt="去报告卡" data-canonical-src="https://goreportcard.com/badge/github.com/restic/restic" style="max-width: 100%;"></a></p>
+<h1 tabindex="-1" dir="auto"><a id="user-content-introduction" class="anchor" aria-hidden="true" tabindex="-1" href="#introduction"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">介绍</font></font></h1>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Restic 是一款快速、高效且安全的备份程序。</font><font style="vertical-align: inherit;">它支持三大操作系统（Linux、macOS、Windows）和一些较小的操作系统（FreeBSD、OpenBSD）。</font></font></p>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关详细的使用和安装说明，请查看</font></font><a href="https://restic.readthedocs.io/en/latest" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p dir="auto"><font style="vertical-align: inherit;"></font><a href="https://forum.restic.net" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以在我们的Discourse 论坛</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">中提问</font><font style="vertical-align: inherit;">。</font></font></p>
+<h2 tabindex="-1" dir="auto"><a id="user-content-quick-start" class="anchor" aria-hidden="true" tabindex="-1" href="#quick-start"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速开始</font></font></h2>
+<p dir="auto"><font style="vertical-align: inherit;"></font><a href="https://restic.readthedocs.io/en/latest/020_installation.html" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Restic后</font><font style="vertical-align: inherit;">，开始为备份创建存储库：</font></font></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>$ restic init --repo /tmp/backup
+enter password for new backend:
+enter password again:
+created restic backend 085b3c76b9 at /tmp/backup
+Please note that knowledge of your password is required to access the repository.
+Losing your password means that your data is irrecoverably lost.
+</code></pre><div class="zeroclipboard-container">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 tooltipped-no-delay d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="$ restic init --repo /tmp/backup
+enter password for new backend:
+enter password again:
+created restic backend 085b3c76b9 at /tmp/backup
+Please note that knowledge of your password is required to access the repository.
+Losing your password means that your data is irrecoverably lost." tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并添加一些数据：</font></font></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>$ restic --repo /tmp/backup backup ~/work
+enter password for repository:
+scan [/home/user/work]
+scanned 764 directories, 1816 files in 0:00
+[0:29] 100.00%  54.732 MiB/s  1.582 GiB / 1.582 GiB  2580 / 2580 items  0 errors  ETA 0:00
+duration: 0:29, 54.47MiB/s
+snapshot 40dc1520 saved
+</code></pre><div class="zeroclipboard-container">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 tooltipped-no-delay d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="$ restic --repo /tmp/backup backup ~/work
+enter password for repository:
+scan [/home/user/work]
+scanned 764 directories, 1816 files in 0:00
+[0:29] 100.00%  54.732 MiB/s  1.582 GiB / 1.582 GiB  2580 / 2580 items  0 errors  ETA 0:00
+duration: 0:29, 54.47MiB/s
+snapshot 40dc1520 saved" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接下来，您可以使用</font></font><code>restic restore</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">恢复文件或使用</font></font><code>restic mount</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过熔断挂载存储库并浏览以前快照中的文件。</font></font></p>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关更多选项，请查看</font></font><a href="https://restic.readthedocs.io/en/latest/" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在线文档</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<h1 tabindex="-1" dir="auto"><a id="user-content-backends" class="anchor" aria-hidden="true" tabindex="-1" href="#backends"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">后端</font></font></h1>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在同一台机器上保存备份固然不错，但并不是真正的备份策略。</font><font style="vertical-align: inherit;">因此，restic 支持以下后端来本地存储备份：</font></font></p>
+<ul dir="auto">
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#local" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">本地目录</font></font></a></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#sftp" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sftp 服务器（通过 SSH）</font></font></a></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#rest-server" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTTP REST 服务器</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font><a href="https://restic.readthedocs.io/en/latest/100_references.html#rest-backend" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">协议</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">、</font></font><a href="https://github.com/restic/rest-server"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">休息服务器</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#amazon-s3" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Amazon S3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（来自 Amazon 或使用</font></font><a href="https://minio.io" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Minio</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">服务器）</font></font></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#openstack-swift" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OpenStack Swift</font></font></a></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#backblaze-b2" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">后退Blaze B2</font></font></a></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#microsoft-azure-blob-storage" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">微软Azure Blob存储</font></font></a></li>
+<li><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#google-cloud-storage" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">谷歌云存储</font></font></a></li>
+<li><font style="vertical-align: inherit;"></font><a href="https://rclone.org" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以及通过rclone</font></font></a> <font style="vertical-align: inherit;"><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#other-services-via-rclone" rel="nofollow"><font style="vertical-align: inherit;">后端</font></a><font style="vertical-align: inherit;">提供的许多其他服务</font></font><a href="https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#other-services-via-rclone" rel="nofollow"><font style="vertical-align: inherit;"></font></a></li>
+</ul>
+<h1 tabindex="-1" dir="auto"><a id="user-content-design-principles" class="anchor" aria-hidden="true" tabindex="-1" href="#design-principles"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设计原则</font></font></h1>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Restic 是一个可以正确备份的程序，其设计遵循以下原则：</font></font></p>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">简单：</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">备份应该是一个无摩擦的过程，否则您可能会想跳过它。</font><font style="vertical-align: inherit;">Restic 应该易于配置和使用，以便在发生数据丢失时，您可以恢复它。</font><font style="vertical-align: inherit;">同样，恢复数据也不应该很复杂。</font></font></p>
+</li>
+<li>
+<p dir="auto"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：使用 Restic 备份数据应该仅受网络或硬盘带宽的限制，以便您每天都可以备份文件。</font><font style="vertical-align: inherit;">如果备份花费太多时间，就没有人进行备份。</font><font style="vertical-align: inherit;">恢复备份应该只传输要恢复的文件所需的数据，因此这个过程也很快。</font></font></p>
+</li>
+<li>
+<p dir="auto"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可验证</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：比备份更重要的是恢复，因此 Restic 使您能够轻松验证所有数据是否可以恢复。</font></font></p>
+</li>
+<li>
+<p dir="auto"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安全</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：Restic 使用加密技术来保证数据的机密性和完整性。</font><font style="vertical-align: inherit;">假设备份数据的存储位置不是受信任的环境（例如系统管理员等其他人能够访问您的备份的共享空间）。</font><font style="vertical-align: inherit;">Restic 旨在保护您的数据免受此类攻击。</font></font></p>
+</li>
+<li>
+<p dir="auto"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">高效</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：随着数据的增长，额外的快照应该只占用实际增量的存储。</font><font style="vertical-align: inherit;">更重要的是，重复数据应该在实际写入存储后端之前进行重复数据删除，以节省宝贵的备份空间。</font></font></p>
+</li>
+</ul>
+<h1 tabindex="-1" dir="auto"><a id="user-content-reproducible-builds" class="anchor" aria-hidden="true" tabindex="-1" href="#reproducible-builds"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可重复的构建</font></font></h1>
+<p dir="auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从 0.6.1 开始，每个 Restic 版本发布的二进制文件都是
+</font></font><a href="https://reproducible-builds.org/" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可重现的</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，这意味着您可以从该版本的源代码中重现字节相同的版本。</font><font style="vertical-align: inherit;">有关如何执行此操作的说明包含在
+</font></font><a href="https://github.com/restic/builder"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建器存储库</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">中。</font></font></p>
+<h2 tabindex="-1" dir="auto"><a id="user-content-news" class="anchor" aria-hidden="true" tabindex="-1" href="#news"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">消息</font></font></h2>
+<p dir="auto"><font style="vertical-align: inherit;"></font><a href="https://fosstodon.org/@restic" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以在 Mastodon @resticbackup</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上关注 Restic 项目</font><font style="vertical-align: inherit;">或订阅该</font></font><a href="https://restic.net/blog/" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目博客</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<h2 tabindex="-1" dir="auto"><a id="user-content-license" class="anchor" aria-hidden="true" tabindex="-1" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></h2>
+<p dir="auto"><font style="vertical-align: inherit;"></font><a href="https://opensource.org/licenses/BSD-2-Clause" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Restic 根据BSD 2-Clause License</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">获得许可</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">您可以在 中找到完整的文本</font></font><a href="/restic/restic/blob/master/LICENSE"><code>LICENSE</code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<h2 tabindex="-1" dir="auto"><a id="user-content-sponsorship" class="anchor" aria-hidden="true" tabindex="-1" href="#sponsorship"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助</font></font></h2>
+<p dir="auto"><font style="vertical-align: inherit;"></font><a href="https://appscode.com" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Google Cloud Storage 和 Microsoft Azure Blob Storage 的后端集成测试由AppsCode</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助</font><font style="vertical-align: inherit;">！</font></font></p>
+<p dir="auto"><a href="https://appscode.com" rel="nofollow"><img src="https://camo.githubusercontent.com/5266e90bb37843cd131fafb7eda07c37394d6ba8e199d10ba75a11f9daf6a4de/68747470733a2f2f63646e2e61707073636f64652e636f6d2f696d616765732f6c6f676f2f61707073636f64652f61632d6c6f676f2d636f6c6f722e706e67" alt="由 AppsCode 赞助" data-canonical-src="https://cdn.appscode.com/images/logo/appscode/ac-logo-color.png" style="max-width: 100%;"></a></p>
+</article></div>
